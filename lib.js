@@ -12,8 +12,7 @@ let sleep = (millSeconds) => {
 */
 
 Function.prototype.imitateCall = function (context) {
-  debugger
-  var context = context || window
+  var context = Object(context) || window
   var arg = []
   context.fn = this
   for(var i = 1; len=arguments.length, i<len; i++) {
