@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    #layer1 {
+      background-color: black;
+      width: 500px;
+      height: 500px;
+    }
+    #layer2 {
+      background-color: red;
+      width: 400px;
+      height: 400px;
+    }
+    #layer3 {
+      background-color: purple;
+      width: 300px;
+      height: 300px;
+    }
+    #layer4 {
+      background-color: orange;
+      width: 200px;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div id="layer1">
+    <div id="layer2">
+      <div id="layer3">
+        <div id="layer4"></div>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+Function.prototype.imitateCall = function (context) {
+  debugger
+  var context = context || window
+  var arg = []
+  context.fn = this
+  for(var i = 1; len=arguments.length, i<len; i++) {
+    arg.push('arguments[' + i + ']')
+  }
+  var result = eval('context.fn(' + arg + ')')
+  delete context.fn
+  return result
+}
+
+var foo = {
+    value: 1
+}
+
+function bar(name, age) {
+    console.log(name)
+    console.log(age)
+    console.log(this.value);
+}
+
+bar.imitateCall(foo, 'kevin', 18); 
+</script>
+</html>

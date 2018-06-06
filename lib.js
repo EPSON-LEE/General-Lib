@@ -3,43 +3,47 @@ let sleep = (millSeconds) => {
   while (new Date.getTime() < startTime + millSeconds){}
 }
 
-let rKey = /^[0-9A-Za-z_@--]*$/
-let store
+/**
+ * test case
+ * 模拟call的实现
+ * 1. 函数设为对象属性
+ * 2. 执行该函数
+ * 3. 删除该函数
+*/
 
-// 转换对象
-let init = () => {
-  if (typeof store === 'undefined') {
-    store = window['localStorage']
+Function.prototype.imitateCall = function (context) {
+  debugger
+  var context = context || window
+  var arg = []
+  context.fn = this
+  for(var i = 1; len=arguments.length, i<len; i++) {
+    arg.push('arguments[' + i + ']')
   }
-  return store
+  var result = eval('context.fn(' + arg + ')')
+  delete context.fn
+  return result
 }
 
-// 判断localStorage key值是否合法
-let isValidKey = (key) => {
-  if (typeof key !== 'string') {
-    return false
-  }
-  return rKey.test(key)
-}
+/**
+ * test case
+ * 模拟Apply的实现
+ * 接受一个this对象和一个数组
+*/
 
-module.exports = {
-  // 设置localStorage单条记录
-  set (key, value) {
-    let success = false
-    if (isValidKey(key) && init()) {
-      try {
-        value += ''
-        store.setItem(key, value)
-        success = true
-      } catch(e) {
-        console.error(e)
-      }
+Function.prototype.imitateApply = function (context, arr) {
+  var context = Object(context) || window
+      context.fn = this
+
+  var result
+  if (arr) {
+
+  } else {
+    var args = []
+    for(var i = 1; len=arguments.length, i<len; i++) {
+      arg.push('arguments[' + i + ']')
     }
-    return success
-  },
-
-  // 读取localStorage单条记录
-  get (key) {
-
+    result = eval('context.fn(' + arg + ')')
   }
+  delete context.fn
+  return result
 }
