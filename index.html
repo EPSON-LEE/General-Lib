@@ -36,31 +36,56 @@
       </div>
     </div>
   </div>
+  <button id='button'>
+    用力
+  </button>
+  <button id='cancel'>
+    取消
+  </button>
 </body>
 <script>
-Function.prototype.imitateCall = function (context) {
-  debugger
-  var context = context || window
-  var arg = []
-  context.fn = this
-  for(var i = 1; len=arguments.length, i<len; i++) {
-    arg.push('arguments[' + i + ']')
+  function debounce(func, time, immediate) {
+    var timeout,
+        result
+    var debounced = function() {
+      // debugger
+      var context = this
+      var args = arguments
+
+      // 立即执行 随后消除抖动
+      if (timeout) clearTimeout(timeout)
+      if (immediate) {
+        var callNow = !timeout
+        timeout = setTimeout(function(){
+          timeout = null
+        }, time)
+        if (callNow) result = func.apply(context, args)
+      } else {
+        timeout = setTimeout(function() {
+          func.apply(context, args)
+        }, time)
+      }
+      return debounced
+    }
+
+    debounced.cancel = function() {
+      clearTimeout(timeout)
+      timeout = null
+    }
+
+    return debounced
   }
-  var result = eval('context.fn(' + arg + ')')
-  delete context.fn
-  return result
-}
 
-var foo = {
-    value: 1
-}
+  function butCall() {
+    console.error(1)
+  }
 
-function bar(name, age) {
-    console.log(name)
-    console.log(age)
-    console.log(this.value);
-}
+  var Go = debounce(butCall, 1000, true)
 
-bar.imitateCall(foo, 'kevin', 18); 
+  document.getElementById('button').onclick = Go() 
+  document.getElementById('cancel').addEventListener('click', function() {
+    Go.cancel()
+  })
+
 </script>
 </html>

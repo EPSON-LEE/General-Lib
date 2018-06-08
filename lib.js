@@ -46,3 +46,56 @@ Function.prototype.imitateApply = function (context, arr) {
   delete context.fn
   return result
 }
+
+/**
+ * test case
+ * 模拟关键字 new实现了什么
+ * 
+ * 1、 访问构造函数里的属性
+ * 2、 访问到Otaku.prototype中的属性
+ * 3、 实例的__proto__属性会指向构造函数的prototype, 实例可以访问原型上的属性
+ * 4、 针对有返回值的
+ */
+
+ function objectFactory() {
+   var obj = new Object()
+   Constructor = [].shift.call(arguments)
+   obj.__proto__ = Constructor.prototype
+   var ret = Constructor.apply(obj, arguments)
+   return ret
+ }
+
+ /**
+  * debounce
+  */
+
+ function debounce(func, time, immediate) {
+  var timeout,
+      result
+  var debounced = function() {
+    var context = this
+    var args = arguments
+
+    // 立即执行 随后消除抖动
+    if (timeout) clearTimeout(timeout)
+    if (immediate) {
+      var callNow = !timeout
+      timeout = setTimeout(function(){
+        timeout = null
+      }, time)
+      if (callNow) result = func.apply(context, args)
+    } else {
+      timeout = setTimeout(function() {
+        func.apply(context, args)
+      }, time)
+    }
+    return debounced
+  }
+
+  debounced.cancel = function() {
+    clearTimeout(timeout)
+    timeout = null
+  }
+
+  return debounced
+}
