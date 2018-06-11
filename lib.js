@@ -12,7 +12,7 @@ let sleep = (millSeconds) => {
 */
 
 Function.prototype.imitateCall = function (context) {
-  var context = Object(context) || window
+  var context = context || window
   var arg = []
   context.fn = this
   for(var i = 1; len=arguments.length, i<len; i++) {
@@ -30,7 +30,7 @@ Function.prototype.imitateCall = function (context) {
 */
 
 Function.prototype.imitateApply = function (context, arr) {
-  var context = Object(context) || window
+  var context = context || window
       context.fn = this
 
   var result
@@ -66,7 +66,7 @@ Function.prototype.imitateApply = function (context, arr) {
  }
 
  /**
-  * debounce
+  * debounce 防抖
   */
 
  function debounce(func, time, immediate) {
@@ -99,3 +99,52 @@ Function.prototype.imitateApply = function (context, arr) {
 
   return debounced
 }
+
+ /**
+  * isEmptyObject
+  */
+  function isEmptyObject(obj){
+
+    var name
+
+    for (name in obj) {
+      return false
+    }
+
+    return true
+  }
+
+  /**
+   * console.log(isEmptyObject({})); // true
+   * console.log(isEmptyObject([])); // true
+   * console.log(isEmptyObject(null)); // true
+   * console.log(isEmptyObject(undefined)); // true
+   * console.log(isEmptyObject(1)); // true
+   * console.log(isEmptyObject('')); // true
+   * console.log(isEmptyObject(true)); // true
+   */
+
+
+   /**
+    * 判断是不是Dom元素
+    */
+    function isElement(obj) {
+     return !!(obj && obj.nodeType === 1)
+   }
+
+   /**
+    * 判断是不是window对象
+    */
+
+    function isWindow(obj) {
+      return obj != null && obj === obj.window
+    }
+
+    /**
+     * Array的原生方法可以用来处理类似数组行为的对象
+     */
+
+    function test() {
+      console.error([].slice.call(arguments, 1))
+      console.error(arguments)
+    }
