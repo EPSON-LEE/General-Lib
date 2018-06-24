@@ -12,6 +12,7 @@ let sleep = (millSeconds) => {
 */
 
 Function.prototype.imitateCall = function (context) {
+  debugger
   var context = context || window
   var arg = []
   context.fn = this
@@ -22,6 +23,17 @@ Function.prototype.imitateCall = function (context) {
   delete context.fn
   return result
 }
+
+function testCall () {
+  this.name = 1
+  console.error(this.name)
+}
+
+let a = {
+  'name': 1
+}
+
+testCall.apply(a)
 
 /**
  * test case
@@ -148,3 +160,73 @@ Function.prototype.imitateApply = function (context, arr) {
       console.error([].slice.call(arguments, 1))
       console.error(arguments)
     }
+
+    /**
+     * bubble sort
+     * arr = [10,7,6,7,9,8,7,10,12]
+     */
+
+    function bubbleSort (arr) {
+      let len = arr.length
+      for (let i = 0; i < len - 1; i++) {
+        for (let j = 0; j < len - 1 - i; j++) {
+          if (arr[j] > arr[j+1]) {
+            [arr[j], arr[j+1]] = [arr[j+1], arr[j]]
+          }
+        }
+      }
+      return arr
+    }
+
+    bubbleSort([10,7,6,7,9,8,7,10,12])
+
+    /**
+     * select Sort
+     * 找到最大（小）的， 交换
+     */
+     let selectSort = (arr) => {
+       let len = arr.length
+       let minIndex, temp
+       for (var i = 0; i < len - 1; i++) {
+         minIndex = i
+         for (var j = i + 1; j < len; j++) {
+           if (arr[j] < a[minIndex]) {
+             minIndex = j
+           }
+         }
+         [arr[i], arr[minIndex]] = [arr[i], arr[minIndex]]
+       }
+       return arr
+     }
+
+     selectSort([10,7,6,7,9,8,7,10,12])
+
+
+     let bubbleSortES6 = (arr) => {
+       let len = arr.length
+       for (let i = 0; i < len - 1; i++) {
+         for (let j = 0; j < len - i - 1; j++) {
+           if (arr[j] > arr[j + 1]) {
+             [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
+           }
+         }
+       }
+       return arr
+     }
+
+     bubbleSortES6([10,7,6,7,9,8,7,10,12])
+
+
+     /**
+      * shallow copy
+      */
+     let shallowCopy = (obj) => {
+       let tarObj = {}
+       for (var i in obj) {
+         obj[i] = tarObj[i] 
+       }
+       return tarObj
+     }
+
+     Object.assign({}, obj)
+     
