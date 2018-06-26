@@ -122,7 +122,7 @@ Function.prototype.imitateApply = function (context, arr) {
     for (name in obj) {
       return false
     }
-
+    
     return true
   }
 
@@ -229,6 +229,10 @@ Function.prototype.imitateApply = function (context, arr) {
      }
 
      Object.assign({}, obj)
+
+     /**
+      * deepCopy
+      */
      
      /**
       * judgeArrayEqual
@@ -240,3 +244,35 @@ Function.prototype.imitateApply = function (context, arr) {
        return arr1.sort().toString() === arr2.sort().toString()
      }
      judgeArrayEqual(arr1, arr2)
+
+
+     /**
+      * stackoverflow 看到的一种方法
+      */
+     Array.prototype.equals = function(array) {
+      // falsy值 返回
+       if (!array) {
+         return false
+       }
+
+      //  长度不相等 返回
+       if (this.length !== array.length) {
+         return false
+       }
+
+      // 长度缓存
+       len = array.length
+
+      //  递归遍历判断相等
+       for (var i = 0; i < len; i++) {
+         if (this[i] instanceof Array && array[i] instanceof Array) {
+           if (!this[i].equals(array[i])) {
+             return false
+           }
+         } else if (this[i] !== array[i]) {
+           return false
+         }
+       }
+     }
+
+     Object.defineProperty(Array.prototype, "equals", {enumerable: false})
