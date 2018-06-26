@@ -61,9 +61,33 @@
     console.log(this.a || 1)
   }
 
-  var obj = {
-    a: 10
-  }
-  operate.imitateCall(obj)
+  var Go = debounce(butCall, 1000, true)
+
+  document.getElementById('button').onclick = Go() 
+  document.getElementById('cancel').addEventListener('click', function() {
+    Go.cancel()
+  })
+
+  var curry = function (fn) {
+    var args = [].slice.call(arguments, 1);
+    return function() {
+        var newArgs = args.concat([].slice.call(arguments));
+        return fn.apply(this, newArgs);
+    };
+};
+
+function add(a, b) {
+    return a + b;
+}
+
+var addCurry = curry(add, 1, 2);
+addCurry() // 3
+//或者
+var addCurry = curry(add, 1);
+addCurry(2) // 3
+//或者
+var addCurry = curry(add);
+addCurry(1, 2) // 3
+
 </script>
 </html>

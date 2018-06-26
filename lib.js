@@ -229,4 +229,3 @@ Function.prototype.imitateApply = function (context, arr) {
      }
 
      Object.assign({}, obj)
-     
