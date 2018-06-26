@@ -229,3 +229,14 @@ Function.prototype.imitateApply = function (context, arr) {
      }
 
      Object.assign({}, obj)
+     
+     /**
+      * judgeArrayEqual
+      * 把数组替换为字符串的方法, 不能保证顺序
+      */
+     arr1 = [1,2,3,4]
+     arr2 = [1,2,3, 4]
+     let judgeArrayEqual = (arr1, arr2) => {
+       return arr1.sort().toString() === arr2.sort().toString()
+     }
+     judgeArrayEqual(arr1, arr2)
