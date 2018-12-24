@@ -44,40 +44,21 @@
   </button>
 </body>
 <script>
-  function debounce(func, time, immediate) {
-    var timeout,
-        result
-    var debounced = function() {
-      // debugger
-      var context = this
-      var args = arguments
-
-      // 立即执行 随后消除抖动
-      if (timeout) clearTimeout(timeout)
-      if (immediate) {
-        var callNow = !timeout
-        timeout = setTimeout(function(){
-          timeout = null
-        }, time)
-        if (callNow) result = func.apply(context, args)
-      } else {
-        timeout = setTimeout(function() {
-          func.apply(context, args)
-        }, time)
-      }
-      return debounced
+  Function.prototype.imitateCall = function (context) {
+    // context 传进来的对象
+    var context = context || window
+    var arg = []
+    context.fn = this
+    for(var i = 1; len=arguments.length, i<len; i++) {
+      arg.push('arguments[' + i + ']')
     }
-
-    debounced.cancel = function() {
-      clearTimeout(timeout)
-      timeout = null
-    }
-
-    return debounced
+    var result = eval('context.fn(' + arg + ')')
+    delete context.fn
+    return result
   }
 
-  function butCall() {
-    console.error(1)
+  function operate() {
+    console.log(this.a || 1)
   }
 
   var Go = debounce(butCall, 1000, true)
@@ -99,7 +80,6 @@ function add(a, b) {
     return a + b;
 }
 
-debugger
 var addCurry = curry(add, 1, 2);
 addCurry() // 3
 //或者

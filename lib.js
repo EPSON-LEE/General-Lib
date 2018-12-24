@@ -12,6 +12,7 @@ let sleep = (millSeconds) => {
 */
 
 Function.prototype.imitateCall = function (context) {
+  debugger
   var context = context || window
   var arg = []
   context.fn = this
@@ -22,6 +23,17 @@ Function.prototype.imitateCall = function (context) {
   delete context.fn
   return result
 }
+
+function testCall () {
+  this.name = 1
+  console.error(this.name)
+}
+
+let a = {
+  'name': 1
+}
+
+testCall.apply(a)
 
 /**
  * test case
@@ -111,7 +123,7 @@ Function.prototype.apply = function (context, arr) {
     for (name in obj) {
       return false
     }
-
+    
     return true
   }
 
@@ -207,3 +219,118 @@ Function.prototype.apply = function (context, arr) {
    arr.reduce((max))
 
    let unique = [...new Set(arr)]
+    /**
+     * bubble sort
+     * arr = [10,7,6,7,9,8,7,10,12]
+     */
+
+    function bubbleSort (arr) {
+      let len = arr.length
+      for (let i = 0; i < len - 1; i++) {
+        for (let j = 0; j < len - 1 - i; j++) {
+          if (arr[j] > arr[j+1]) {
+            [arr[j], arr[j+1]] = [arr[j+1], arr[j]]
+          }
+        }
+      }
+      return arr
+    }
+
+    bubbleSort([10,7,6,7,9,8,7,10,12])
+
+    /**
+     * select Sort
+     * 找到最大（小）的， 交换
+     */
+     let selectSort = (arr) => {
+       let len = arr.length
+       let minIndex, temp
+       for (var i = 0; i < len - 1; i++) {
+         minIndex = i
+         for (var j = i + 1; j < len; j++) {
+           if (arr[j] < a[minIndex]) {
+             minIndex = j
+           }
+         }
+         [arr[i], arr[minIndex]] = [arr[i], arr[minIndex]]
+       }
+       return arr
+     }
+
+     selectSort([10,7,6,7,9,8,7,10,12])
+
+
+     let bubbleSortES6 = (arr) => {
+       let len = arr.length
+       for (let i = 0; i < len - 1; i++) {
+         for (let j = 0; j < len - i - 1; j++) {
+           if (arr[j] > arr[j + 1]) {
+             [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
+           }
+         }
+       }
+       return arr
+     }
+
+     bubbleSortES6([10,7,6,7,9,8,7,10,12])
+
+
+     /**
+      * shallow copy
+      */
+     let shallowCopy = (obj) => {
+       let tarObj = {}
+       for (var i in obj) {
+         obj[i] = tarObj[i] 
+       }
+       return tarObj
+     }
+
+     Object.assign({}, obj)
+
+     /**
+      * deepCopy
+      */
+     
+     /**
+      * judgeArrayEqual
+      * 把数组替换为字符串的方法, 不能保证顺序
+      */
+     arr1 = [1,2,3,4]
+     arr2 = [1,2,3, 4]
+     let judgeArrayEqual = (arr1, arr2) => {
+       return arr1.sort().toString() === arr2.sort().toString()
+     }
+     judgeArrayEqual(arr1, arr2)
+
+
+     /**
+      * stackoverflow 看到的一种方法
+      */
+     Array.prototype.equals = function(array) {
+      // falsy值 返回
+       if (!array) {
+         return false
+       }
+
+      //  长度不相等 返回
+       if (this.length !== array.length) {
+         return false
+       }
+
+      // 长度缓存
+       len = array.length
+
+      //  递归遍历判断相等
+       for (var i = 0; i < len; i++) {
+         if (this[i] instanceof Array && array[i] instanceof Array) {
+           if (!this[i].equals(array[i])) {
+             return false
+           }
+         } else if (this[i] !== array[i]) {
+           return false
+         }
+       }
+     }
+
+     Object.defineProperty(Array.prototype, "equals", {enumerable: false})
