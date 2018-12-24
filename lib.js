@@ -29,24 +29,25 @@ Function.prototype.imitateCall = function (context) {
  * 接受一个this对象和一个数组
 */
 
-Function.prototype.imitateApply = function (context, arr) {
-  var context = context || window
-      context.fn = this
+Function.prototype.apply = function (context, arr) {
+  var context = Object(context) || window;
+  context.fn = this;
 
-  var result
-  if (arr) {
-
-  } else {
-    var args = []
-    for(var i = 1; len=arguments.length, i<len; i++) {
-      arg.push('arguments[' + i + ']')
-    }
-    result = eval('context.fn(' + arg + ')')
+  var result;
+  if (!arr) {
+      result = context.fn();
   }
-  delete context.fn
-  return result
-}
+  else {
+      var args = [];
+      for (var i = 0, len = arr.length; i < len; i++) {
+          args.push('arr[' + i + ']');
+      }
+      result = eval('context.fn(' + args + ')')
+  }
 
+  delete context.fn
+  return result;
+}
 /**
  * test case
  * 模拟关键字 new实现了什么
@@ -148,3 +149,61 @@ Function.prototype.imitateApply = function (context, arr) {
       console.error([].slice.call(arguments, 1))
       console.error(arguments)
     }
+
+    function* fib(max) {
+      var
+          t,
+          a = 0,
+          b = 1,
+          n = 0;
+      while (n < max) {
+          yield a;
+          [a, b] = [b, a + b];
+          n ++;
+      }
+      return;
+  }
+
+  function fib2(n) {
+    return n < 2 ? n : fib(n - 1) + fib(n - 2)
+  }
+
+  /**
+   * 冒泡排序
+   */
+  var arr = [1, 3, 6, 78, 5, 0]
+  let bubleSort = (arr) => {
+    let len = arr.length
+    for (var i = 0; i < len - 1; i++) {
+      for (var j = 0; j < len - i - 1; j++) {
+        if (arr[j] > arr[j+1]) {
+          [arr[j], arr[j+1]] = [arr[j+1], arr[j]]
+        }
+      }
+    }
+    return arr
+  }
+  bubleSort(arr)
+
+  /**
+   * 
+   */
+
+   function a () {
+     this.name = 1
+     console.log(this.name)
+   }
+
+   obj = {
+    'name' : 1,
+    'height' : 2,
+    'age': 4
+   }
+
+   function max(pre, next) {
+     return arr.max(pre, next)
+   }
+
+   arr.reduce((max))
+
+   let unique = [...new Set(arr)]
